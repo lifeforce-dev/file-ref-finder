@@ -12,7 +12,7 @@ args = parser.parse_args()
 
 # We're searching for references to any of the files in this list.
 ref_list = []
-search_extensions = [".ui", ".cpp", ".txt", ".json"]
+search_extensions = [".ui", ".cpp", ".txt", ".json", ".css"]
 
 # If we return no references to a file name, we will log it here.
 no_reference_log_name = os.path.join(os.getcwd(), "no-references.log")
