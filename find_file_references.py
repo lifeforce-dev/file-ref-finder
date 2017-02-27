@@ -1,3 +1,4 @@
+import os
 import sys
 import re
 import argparse
@@ -11,6 +12,7 @@ args = parser.parse_args()
 
 # We're searching for references to any of the files in this list.
 ref_list = []
+search_extensions = [".ui", ".cpp", ".txt", ".json"]
 
 # If we return no references to a file name, we will log it here.
 no_reference_log_name = os.path.join(os.getcwd(), "no-references.log")
@@ -42,23 +44,33 @@ def find_ref_in_file(root, file, pattern):
 		if mo:
 			return True
 
+def file_not_empty(file):
+	return os.stat(file).st_size > 0
+
+# Returns if this file is one that we're allowed to look for.
+def file_is_searchable(file):
+	extension = os.path.splitext(file)[1]
+	return  extension in search_extensions
+
 def find_reference(reference):
 	found = False
 	# Starting at the root, find all lines in every text file containing a reference
 	for root, dirs, files in os.walk(args.search_dir):
 		for file in files:
-			if ".cpp" in file or ".txt" in file or ".json" in file or ".ui" in file:
+			if file_is_searchable(file) and file_not_empty(os.path.join(root, file)):
 				reference = os.path.splitext(reference)[0]
 				regexPattern = r'(.*%s.*)' % reference
 				found = find_ref_in_file(root, file, regexPattern)
 				if found:
-					print "Found reference in" + os.path.join(root, file)
+					print "Found reference in " + os.path.join(root, file)
+					return
 	if not found:
+		print "No reference found. Event logged."
 		log_no_reference(reference)
 
 def find_references():
 	for ref in ref_list:
-		print "finding references for " + ref
+		print "Finding references for " + ref
 		find_reference(ref)
 
 clear_logs()
