@@ -4,19 +4,6 @@ import re
 import argparse
 import mmap
 
-# Command line args
-parser = argparse.ArgumentParser(description= 'Find file references in directory')
-parser.add_argument('-s', '--search_dir', help= 'Root directory of files potentially containing references.')
-parser.add_argument('-r', '--ref_dir', default= os.getcwd(), help= "Directory containing files we're looking for references of.")
-args = parser.parse_args()
-
-# We're searching for references to any of the files in this list.
-ref_list = []
-search_extensions = [".ui", ".cpp", ".txt", ".json", ".css", ".h"]
-
-# If we return no references to a file name, we will log it here.
-no_reference_log_name = os.path.join(os.getcwd(), "no-references.log")
-
 def clear_logs():
 	if os.path.exists(no_reference_log_name):
 		open(no_reference_log_name, 'w').close()
@@ -73,6 +60,21 @@ def find_references():
 		print "Finding references for " + ref
 		find_reference(ref)
 
-clear_logs()
-build_ref_list(ref_list)
-find_references()
+if __name__ == "__main__":
+	# Command line args
+	parser = argparse.ArgumentParser(description= 'Find file references in directory')
+	parser.add_argument('-s', '--search_dir', help= 'Root directory of files potentially containing references.')
+	parser.add_argument('-r', '--ref_dir', default= os.getcwd(), help= "Directory containing files we're looking for references of.")
+	args = parser.parse_args()
+
+	# We're searching for references to any of the files in this list.
+	ref_list = []
+	search_extensions = [".ui", ".cpp", ".txt", ".json", ".css", ".h", ".qml"]
+
+	# If we return no references to a file name, we will log it here.
+	no_reference_log_name = os.path.join(os.getcwd(), "no-references.log")
+
+	clear_logs()
+	build_ref_list(ref_list)
+	find_references()
+
