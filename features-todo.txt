@@ -1,0 +1,11 @@
+TODO: features
+- specify file extension behavior
+	- If a file extension is supplied, search for references of all files of that file extension
+
+- Specify single file
+	- If a single file name is given, search for references of that file.
+
+- Specify file extensions to look through. i.e only text files, or only cpp files.
+
+- If no reference was found, include the path to the file name we were looking for in the log
+- Nice formatting for references that were found.
