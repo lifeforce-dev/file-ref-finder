@@ -107,9 +107,6 @@ if __name__ == "__main__":
 
 	args = parser.parse_args()
 
-	print args.search_extensions
-	print args.ref_extensions
-
 	# We're searching for references to any of the files in this list.
 	ref_list = {}
 	search_extensions = args.search_extensions
