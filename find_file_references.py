@@ -46,9 +46,7 @@ def build_ref_list(ref_list):
 def find_ref_in_file(root, file, pattern):
 	with open(os.path.join(root, file), 'r+') as file_in:
 		data = mmap.mmap(file_in.fileno(), 0)
-		mo = re.search(pattern, data)
-		if mo:
-			return True
+		return re.search(pattern, data)
 
 # For each ref in the ref_list, if a match is found in the current file, mark it.
 def mark_references_in_file(root, file):
